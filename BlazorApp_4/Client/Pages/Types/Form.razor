@@ -1,0 +1,55 @@
+﻿@using BlazorApp_4.Server
+<EditForm Model="@type" OnValidSubmit="@OnvalidSubmit">
+    <DataAnnotationsValidator/>
+    <div class="Polaris-FormLayout">
+        <div class="Polaris-FormLayout__Item">
+            <div class="">
+                <div class="Polaris-Labelled__LabelWrapper">
+                    <div class="Polaris-Label"><label id="PolarisTextField3Label" for="PolarisTextField3" class="Polaris-Label__Text">Device Name</label></div>
+                </div>
+                <div class="Polaris-Connected">
+                    <div class="Polaris-Connected__Item Polaris-Connected__Item--primary">
+                        <div class="Polaris-TextField">
+                            <input id="PolarisTextField3" class="Polaris-TextField__Input" aria-labelledby="PolarisTextField3Label" aria-invalid="false" aria-multiline="false" @bind-value="@type.Name">
+                            <div class="Polaris-TextField__Backdrop"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Polaris-Labelled__HelpText" id="PolarisTextField2HelpText">
+                    <ValidationMessage For="@(() => type.Name)"/>
+                </div>
+            </div>
+        </div>
+        <div class="Polaris-FormLayout__Item">
+            <div class="">
+                <div class="Polaris-Labelled__LabelWrapper">
+                    <div class="Polaris-Label"><label id="PolarisTextField4Label" for="PolarisTextField4" class="Polaris-Label__Text">Short Name</label></div>
+                </div>
+                <div class="Polaris-Connected">
+                    <div class="Polaris-Connected__Item Polaris-Connected__Item--primary">
+                        <div class="Polaris-TextField">
+                            <input id="PolarisTextField4" class="Polaris-TextField__Input" type="text" aria-labelledby="PolarisTextField4Label" aria-invalid="false" aria-multiline="false" @bind-value="@type.Shortname">
+                            <div class="Polaris-TextField__Backdrop"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Polaris-Labelled__HelpText" id="PolarisTextField2HelpText">
+                    <ValidationMessage For="@(() => type.Shortname)"/>
+                </div>
+            </div>
+        </div>
+        <div class="Polaris-FormLayout__Item">
+            <button type="submit" class="Polaris-Button" >
+                <span class="Polaris-Button__Content">
+                    <span class="Polaris-Button__Text">@ButtonText</span>
+                </span>
+            </button>
+        </div>
+    </div>
+</EditForm>
+@code{
+    [Parameter] public TblDeviceTypes type { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnvalidSubmit { get; set; }
+    [Parameter] public EventCallback OnInvalidSubmit { get; set; }
+}

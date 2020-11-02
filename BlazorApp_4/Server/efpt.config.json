@@ -1,0 +1,41 @@
+﻿{
+   "ContextClassName": "Digitalshop_V2Context",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": "Data",
+   "OutputPath": "..\/Shared",
+   "ProjectRootNamespace": "BlazorApp_4.Server",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[tblDevices]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[tblDeviceTypes]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[tblDeviceUsage]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[vGetAllDevices]"
+      }
+   ],
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseNodaTime": false,
+   "UseSpatial": false,
+   "UseStoredProcedures": false
+}

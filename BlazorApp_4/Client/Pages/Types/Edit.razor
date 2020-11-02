@@ -1,0 +1,40 @@
+﻿@page "/types/edit/{typeid:int}"
+@using BlazorApp_4.Server
+@using Microsoft.Extensions.Logging
+@inject HttpClient client
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+@inject ILogger<Counter> logger
+<div class="Polaris-Layout">
+    <div class="Polaris-Layout__Section">
+        <div class="polaris-Stack Polaris-Stack--alignmentCenter">
+            <div class="polaris-Stack__Item polaris-Stack__Item--fill">
+                <h2 class="Polaris-Heading">
+                    <span>
+                        <a href="/types" class="btn-loadpartial">Device Types</a>
+                    </span>
+                    <span class="delimeter"> / </span>
+
+                    <span class="current">
+                        Edit
+                    </span>
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="Polaris-Layout__Section">
+        <Form ButtonText="Update" type="@type" OnvalidSubmit="@EditType"></Form>
+    </div>
+</div>
+@code {
+    [Parameter] public int typeid { get; set; }
+    private string LastSubmitResult;
+    TblDeviceTypes type = new TblDeviceTypes();
+    protected async override Task OnParametersSetAsync() {
+        type = await client.GetFromJsonAsync<TblDeviceTypes>($"devicetypes/{typeid}");
+    }
+    async Task EditType() {
+        await client.PutAsJsonAsync("devicetypes", type);
+        uriHelper.NavigateTo("types");
+    }
+}

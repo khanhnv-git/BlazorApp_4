@@ -1,0 +1,38 @@
+﻿@page "/types/create"
+@inject HttpClient client
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+@using BlazorApp_4.Server
+@using Microsoft.Extensions.Logging
+@inject ILogger<Counter> logger
+
+<div class="Polaris-Layout">
+    <div class="Polaris-Layout__Section">
+        <div class="Polaris-Stack Polaris-Stack--alignmentCenter">
+            <div class="Polaris-Stack__Item Polaris-Stack__Item--fill">
+                <h2 class="Polaris-Heading">
+                    <span>
+                        <a href="/types" class="btn-loadpartial">Device Types</a>
+                    </span>
+                    <span class="delimeter"> / </span>
+                    
+                    <span class="current">
+                        Create
+                    </span>
+                </h2>
+            </div>             
+        </div>
+    </div>
+    <div class="Polaris-Layout__Section">
+        <Form ButtonText="Create" type="@type" OnvalidSubmit="@CreateType">
+
+        </Form>
+    </div>
+</div>
+@code{
+    TblDeviceTypes type = new TblDeviceTypes();
+    async Task CreateType() {
+        await client.PostAsJsonAsync("devicetypes", type);
+        uriHelper.NavigateTo("types");
+    }
+}
