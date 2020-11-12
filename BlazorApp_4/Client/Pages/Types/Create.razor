@@ -34,9 +34,9 @@
     TblDeviceTypes type = new TblDeviceTypes();
 
     async Task CreateType() {
-        if (type.Shortname.Length != 3)
+        if (string.IsNullOrEmpty(type.Name) || string.IsNullOrEmpty(type.Shortname) || type.Shortname.Length != 3)
         {
-            message = "Short name is invalid";
+            message = "Name or short name is invalid";
         }
         else
         {

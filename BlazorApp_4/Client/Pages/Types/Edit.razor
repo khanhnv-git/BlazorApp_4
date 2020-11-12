@@ -23,10 +23,11 @@
         </div>
     </div>
     <div class="Polaris-Layout__Section">
-        <Form ButtonText="Update" type="@type" OnvalidSubmit="@EditType"></Form>
+        <Form ButtonText="Update" type="@type" OnvalidSubmit="@EditType" Message="@message"></Form>
     </div>
 </div>
 @code {
+    string message = string.Empty;
     [Parameter] public int typeid { get; set; }
     private string LastSubmitResult;
     TblDeviceTypes type = new TblDeviceTypes();
@@ -34,7 +35,12 @@
         type = await client.GetFromJsonAsync<TblDeviceTypes>($"devicetypes/{typeid}");
     }
     async Task EditType() {
-        await client.PutAsJsonAsync("devicetypes", type);
-        uriHelper.NavigateTo("types");
+        if (string.IsNullOrEmpty(type.Name) || string.IsNullOrEmpty(type.Shortname) || type.Shortname.Length != 3)
+            message = "Name or short name is invalid";
+        else {
+            await client.PutAsJsonAsync("devicetypes", type);
+            uriHelper.NavigateTo("types");
+        }
+
     }
 }
