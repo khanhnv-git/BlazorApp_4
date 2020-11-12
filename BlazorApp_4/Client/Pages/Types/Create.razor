@@ -24,15 +24,34 @@
         </div>
     </div>
     <div class="Polaris-Layout__Section">
-        <Form ButtonText="Create" type="@type" OnvalidSubmit="@CreateType">
+        <Form ButtonText="Create" type="@type" OnvalidSubmit="@CreateType" Message="@message">
 
         </Form>
     </div>
 </div>
 @code{
+    string message = string.Empty;
     TblDeviceTypes type = new TblDeviceTypes();
+
     async Task CreateType() {
-        await client.PostAsJsonAsync("devicetypes", type);
-        uriHelper.NavigateTo("types");
+        if (type.Shortname.Length != 3)
+        {
+            message = "Short name is invalid";
+        }
+        else
+        {
+            var newType = await client.PostAsJsonAsync("devicetypes", type);
+            if (newType.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                uriHelper.NavigateTo("types");
+            }
+            else
+            {
+                await js.InvokeVoidAsync("alert", newType.StatusCode);
+            }
+        }
+
+
     }
+
 }

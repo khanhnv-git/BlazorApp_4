@@ -24,12 +24,7 @@ namespace BlazorApp_4.Server.Controllers
             var types = await _context.TblDeviceTypes.ToListAsync();
             return Ok(types);
         }
-        [HttpPost]
-        public async Task<IActionResult> Search(string s)
-        {
-            var types = await _context.TblDeviceTypes.Where(t => t.Name.ToLower().Contains(s.ToLower())).ToListAsync();
-            return Ok(types);
-        }
+       
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

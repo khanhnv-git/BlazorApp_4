@@ -1,6 +1,19 @@
 ﻿@using BlazorApp_4.Server
 <EditForm Model="@type" OnValidSubmit="@OnvalidSubmit">
     <DataAnnotationsValidator/>
+    @if (!string.IsNullOrEmpty(Message)) { 
+    
+        <div class="Polaris-InlineError">
+            <div class="Polaris-InlineError__Icon">
+                <span class="Polaris-Icon">
+                    <svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">
+                        <path d="M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zM9 9a1 1 0 0 0 2 0V7a1 1 0 1 0-2 0v2zm0 4a1 1 0 1 0 2 0 1 1 0 0 0-2 0z"></path>
+                    </svg>
+                </span>
+            </div>
+            @Message
+        </div>
+    }
     <div class="Polaris-FormLayout">
         <div class="Polaris-FormLayout__Item">
             <div class="">
@@ -48,8 +61,8 @@
     </div>
 </EditForm>
 @code{
+    [Parameter] public string Message { get; set; }
     [Parameter] public TblDeviceTypes type { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnvalidSubmit { get; set; }
-    [Parameter] public EventCallback OnInvalidSubmit { get; set; }
-}
+    }
