@@ -20,6 +20,7 @@ namespace BlazorApp_4.Server.Data
         public virtual DbSet<TblDeviceTypes> TblDeviceTypes { get; set; }
         public virtual DbSet<TblDeviceUsage> TblDeviceUsage { get; set; }
         public virtual DbSet<TblDevices> TblDevices { get; set; }
+        public virtual DbSet<TblUsers> TblUsers { get; set; }
         public virtual DbSet<VGetAllDevices> VGetAllDevices { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -108,6 +109,94 @@ namespace BlazorApp_4.Server.Data
                     .HasColumnType("date");
 
                 entity.Property(e => e.Typeid).HasColumnName("typeid");
+            });
+
+            modelBuilder.Entity<TblUsers>(entity =>
+            {
+                entity.HasKey(e => e.UserId)
+                    .HasName("PK_tblSiteAdmins");
+
+                entity.ToTable("tblUsers");
+
+                entity.HasIndex(e => e.UserLogin)
+                    .HasName("IX_tblUsers")
+                    .IsUnique();
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.Property(e => e.Avatar).HasMaxLength(255);
+
+                entity.Property(e => e.CanUnCancel).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.CompanyId).HasColumnName("CompanyID");
+
+                entity.Property(e => e.DefaultAssignTaskTypeId).HasColumnName("DefaultAssignTaskTypeID");
+
+                entity.Property(e => e.DefaultTaskTypeId).HasColumnName("DefaultTaskTypeID");
+
+                entity.Property(e => e.DepartmentId).HasColumnName("DepartmentID");
+
+                entity.Property(e => e.Enabled).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.GoogleId)
+                    .HasColumnName("GoogleID")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.GroupId).HasColumnName("GroupID");
+
+                entity.Property(e => e.HrpersonalId).HasColumnName("HRPersonalId");
+
+                entity.Property(e => e.MyEmail).HasMaxLength(500);
+
+                entity.Property(e => e.NumberCall)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Password).HasMaxLength(50);
+
+                entity.Property(e => e.PhoneNumber).HasMaxLength(250);
+
+                entity.Property(e => e.PhoneUserName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Pinnumber)
+                    .HasColumnName("PINNumber")
+                    .HasMaxLength(6);
+
+                entity.Property(e => e.PositionId).HasColumnName("PositionID");
+
+                entity.Property(e => e.ReceiveNewTasks).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.RoleId).HasColumnName("roleID");
+
+                entity.Property(e => e.SendRepeatMessages).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.SimpleKrmview).HasColumnName("SimpleKRMView");
+
+                entity.Property(e => e.SubDepartmentId).HasColumnName("SubDepartmentID");
+
+                entity.Property(e => e.TokenExpired).HasColumnType("datetime");
+
+                entity.Property(e => e.TokenValue).HasMaxLength(10);
+
+                entity.Property(e => e.UserAuth).HasDefaultValueSql("((10))");
+
+                entity.Property(e => e.UserLogin)
+                    .IsRequired()
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.UserPassword)
+                    .IsRequired()
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.Username)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.ViewStats).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.WarehouseLocationId).HasColumnName("WarehouseLocationID");
             });
 
             modelBuilder.Entity<VGetAllDevices>(entity =>

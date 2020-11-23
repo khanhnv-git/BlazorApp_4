@@ -1,0 +1,27 @@
+﻿@using BlazorApp_4.Server
+@inject HttpClient client
+@inject IJSRuntime js
+@inject NavigationManager uriHelper
+@using Microsoft.Extensions.Logging;
+@inject ILogger<Counter> logger;
+
+<span>@(CurrentUser != null ? CurrentUser.Username : "n/a")</span>
+
+@code {
+    TblUsers CurrentUser;
+    [Parameter] public int UserID { get; set; }
+    protected async override Task OnParametersSetAsync()
+    {
+        try
+        {
+            CurrentUser = await client.GetFromJsonAsync<TblUsers>($"/user/{UserID}");
+        }
+        catch
+        {
+
+        }
+
+    }
+
+
+}

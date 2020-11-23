@@ -1,0 +1,90 @@
+﻿@using BlazorApp_4.Server
+@inject HttpClient client
+@inject IJSRuntime js
+@inject NavigationManager uriHelper
+@using Microsoft.Extensions.Logging;
+@inject ILogger<Counter> logger;
+<div class="Polaris-DataTable__ScrollContainer">
+    <table class="Polaris-DataTable__Table">
+        <thead>
+            <tr>
+                <th data-polaris-header-cell="true" class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--firstColumn Polaris-DataTable__Cell--header" scope="col">#</th>
+                <th data-polaris-header-cell="true" class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--header" scope="col">LabelID</th>
+                <th data-polaris-header-cell="true" class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--header" scope="col">Device Name</th>
+                <th data-polaris-header-cell="true" class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--header Polaris-DataTable__Cell--header" scope="col">MAC Address</th>
+                <th data-polaris-header-cell="true" class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--header Polaris-DataTable__Cell--header" scope="col">Type</th>
+                <th data-polaris-header-cell="true" class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--header Polaris-DataTable__Cell--header" scope="col">Owner</th>
+                <th data-polaris-header-cell="true" class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--header Polaris-DataTable__Cell--header" scope="col">Start Time</th>
+                <th data-polaris-header-cell="true" class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--header Polaris-DataTable__Cell--header" scope="col">Available</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @if (Devices == null)
+            {
+                <tr>
+                    <td colspan="8">
+                        <div class="Polaris-SkeletonBodyText__SkeletonBodyTextContainer">
+                            <div class="Polaris-SkeletonBodyText"></div>
+                            <div class="Polaris-SkeletonBodyText"></div>
+                            <div class="Polaris-SkeletonBodyText"></div>
+                        </div>
+                    </td>
+                </tr>
+            }
+            else if (Devices.Length == 0)
+            {
+                <tr>
+                    <td colspan="8">
+                        <div class="empty-results">
+                            <p class="Polaris-DisplayText Polaris-DisplayText--sizeSmall">No Device found</p>
+                        </div>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                int c = 1;
+
+                foreach (var device in Devices)
+                {
+
+
+
+                    <tr class="Polaris-DataTable__TableRow">
+
+                        <th class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--firstColumn" scope="row">@c</th>
+                        <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop">
+                            <a href="Javascript:;" class="Polaris-Link" data-polaris-unstyled="true">
+                                @device.Labelid
+                            </a>
+                        </td>
+                        <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop">@device.Name</td>
+                        <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop">@device.Macaddress</td>
+                        <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop">@device.Typename</td>
+                        <TD DeviceID="@device.Deviceid"></TD>                       
+                        <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop">
+                            @if (device.IsAvailable.HasValue && device.IsAvailable.Value)
+                            {
+                                <span class="Polaris-Badge Polaris-Badge--statusInfo">Yes</span>
+                            }
+                            else
+                            {
+                                <span class="Polaris-Badge Polaris-Badge--statusCritical">No</span>
+                            }
+                        </td>
+
+                    </tr>
+                    c++;
+                }
+            }
+        </tbody>
+
+    </table>
+</div>
+
+@code{
+    int user = 0;
+    public TblDeviceUsage[] Usage;
+    [Parameter] public VGetAllDevices[] Devices{ get; set; }
+}

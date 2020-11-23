@@ -14,19 +14,28 @@
    "Tables": [
       {
          "HasPrimaryKey": true,
-         "Name": "[dbo].[tblDevices]"
+         "Name": "[dbo].[tblDevices]",
+         "ObjectType": 0
       },
       {
          "HasPrimaryKey": true,
-         "Name": "[dbo].[tblDeviceTypes]"
+         "Name": "[dbo].[tblDeviceTypes]",
+         "ObjectType": 0
       },
       {
          "HasPrimaryKey": true,
-         "Name": "[dbo].[tblDeviceUsage]"
+         "Name": "[dbo].[tblDeviceUsage]",
+         "ObjectType": 0
       },
       {
          "HasPrimaryKey": true,
-         "Name": "[dbo].[vGetAllDevices]"
+         "Name": "[dbo].[tblUsers]",
+         "ObjectType": 0
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[vGetAllDevices]",
+         "ObjectType": 0
       }
    ],
    "UseDatabaseNames": false,
@@ -36,6 +45,5 @@
    "UseInflector": false,
    "UseLegacyPluralizer": false,
    "UseNodaTime": false,
-   "UseSpatial": false,
-   "UseStoredProcedures": false
+   "UseSpatial": false
 }
