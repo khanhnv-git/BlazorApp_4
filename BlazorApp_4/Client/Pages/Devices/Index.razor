@@ -61,7 +61,7 @@
                                                                     </svg>
                                                                 </span>
                                                             </span>
-                                                        </div><input id="searchDevices" placeholder="Filter Device Types" class="Polaris-TextField__Input Polaris-TextField__Input--hasClearButton" aria-invalid="false" aria-multiline="false">
+                                                        </div><input id="searchDevices" placeholder="Filter Device Types" class="Polaris-TextField__Input Polaris-TextField__Input--hasClearButton" aria-invalid="false" aria-multiline="false" @oninput="@((e) => SearchTypes(e.Value.ToString().ToLower()))">
                                                         <div class="Polaris-TextField__Backdrop"></div>
                                                     </div>
                                                 </div>
@@ -96,7 +96,7 @@
                                                                                                 <label class="Polaris-Choice" for="DeviceDisabled">
                                                                                                     <span class="Polaris-Choice__Control">
                                                                                                         <span class="Polaris-Checkbox">
-                                                                                                            <input id="DeviceDisabled" type="checkbox" class="Polaris-Checkbox__Input" aria-invalid="false" role="checkbox" aria-checked="false" value="Online Store" @onchange="ShowPopover">
+                                                                                                            <input id="DeviceDisabled" type="checkbox" class="Polaris-Checkbox__Input" aria-invalid="false" role="checkbox" aria-checked="false" @onchange="(() => ShowListDevice())" >
                                                                                                             <span class="Polaris-Checkbox__Backdrop"></span>
                                                                                                             <span class="Polaris-Checkbox__Icon"><span class="Polaris-Icon"><svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true"><path d="M8.315 13.859l-3.182-3.417a.506.506 0 0 1 0-.684l.643-.683a.437.437 0 0 1 .642 0l2.22 2.393 4.942-5.327a.436.436 0 0 1 .643 0l.643.684a.504.504 0 0 1 0 .683l-5.91 6.35a.437.437 0 0 1-.642 0"></path></svg></span></span>
                                                                                                         </span>
@@ -125,13 +125,13 @@
 
                             <div class="Polaris-Filters-ConnectedFilterControl__AuxiliaryContainer">
                                 <div style="padding-left: 8px;">
-                                    <a href="/device/create">
-                                        <button type="button" class="Polaris-Button" id="addNewDevice">
+                                   
+                                        <button type="button" class="Polaris-Button" id="addNewDevice" @onclick="OpenModal">
                                             <span class="Polaris-Button__Content">
-                                                <span class="Polaris-Button__Text">New device</span>
+                                                <span class="Polaris-Button__Text">Add New device</span>
                                             </span>
                                         </button>
-                                    </a>
+                                  
                                 </div>
                             </div>
                         </div>
@@ -184,10 +184,10 @@
     </div>
 
 </div>
-<div id="modal-AddandEdit" class="Polaris-Modal-Dialog__Container" data-polaris-layer="true" data-polaris-overlay="true" style="display: none">
+<div id="modal-AddandEdit" class="Polaris-Modal-Dialog__Container Polaris- @(!isOpen ? "Polaris-VisuallyHidden" : "")" data-polaris-layer="true" data-polaris-overlay="true">
 
     <div class="Polaris-Modal-Dialog__Modal" id="add-edit-form">
-
+      <DeviceForm device="@device" OnvalidSubmit="@EditDevice"></DeviceForm>
     </div>
 
 </div>
@@ -201,14 +201,24 @@
 
 @code
 {
-
-    int p = 1;
-    int itemPerPage = 10;
-    int pagingCount = 1;
+        bool isOpen = false;
+        string s = "";
+        bool isDeviceRemoved = false;
+        int p = 1;
+        int itemPerPage = 10;
+        int pagingCount = 1;
     public VGetAllDevices[] devices;
+    TblDevices device = new TblDevices();
     protected override async Task OnInitializedAsync()
     {
         devices = await client.GetFromJsonAsync<VGetAllDevices[]>("/devices");
+
+        devices = devices.Where(d => d.Name.ToLower().Contains(s) || d.Labelid.ToLower().Contains(s)).ToArray();
+
+        if (isDeviceRemoved)
+            devices = devices.Where(d => d.IsRemoved.HasValue && d.IsRemoved.Value).ToArray();
+        else
+            devices = devices.Where(d => !d.IsRemoved.HasValue || !d.IsRemoved.Value).ToArray();
 
         if (devices != null && devices.Length > 0)
         {
@@ -223,36 +233,25 @@
         await OnInitializedAsync();
     }
 
-    //string value;
-    //public TblDeviceTypes[] types;
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    types = await client.GetFromJsonAsync<TblDeviceTypes[]>("devicetypes");
-    //}
-
-    //async Task Delete(int typeid)
-    //{
-
-    //    var type = types.FirstOrDefault(t => t.Typeid == typeid);
-    //    if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {type.Name}?"))
-    //    {
-    //        await client.DeleteAsync($"devicetypes/{typeid}");
-    //        await OnInitializedAsync();
-    //    }
-    //}
-    //private void EditPage(int typeid)
-    //{
-    //    uriHelper.NavigateTo($"types/edit/{typeid}");
-    //}
     private bool isShow = false;
     private void ShowPopover()
     {
         isShow = !isShow;
     }
-    //protected async Task SearchTypes(string s)
-    //{
-    //    logger.LogWarning(s);
-    //    OnInitializedAsync();
-    //    types = types.Where(t => t.Name.ToLower().Contains(s.ToLower())).ToArray();
-    //}
+    protected async Task ShowListDevice() {
+        isDeviceRemoved = !isDeviceRemoved;
+        await OnInitializedAsync();
+        ShowPopover();
+    }
+    protected async Task SearchTypes(string key)
+    {
+        s = key;
+        await OnInitializedAsync();
+    }
+    private void OpenModal() {
+        isOpen = true;
+    }
+    private void EditDevice() { 
+    
+    }
 }

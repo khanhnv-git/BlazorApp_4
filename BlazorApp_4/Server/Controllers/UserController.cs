@@ -21,9 +21,15 @@ namespace BlazorApp_4.Server.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public async Task<IActionResult> Get() 
+        {
+            var users = await _context.TblUsers.ToArrayAsync();
+            return Ok(users);
+        }
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id) {
-            var user = await _context.TblUsers.FirstOrDefaultAsync(u => u.UserId == id);
+            var user = await _context.TblUsers.SingleOrDefaultAsync(u => u.UserId == id);
             return Ok(user);
         }
     }

@@ -1,0 +1,51 @@
+﻿@using BlazorApp_4.Server
+@inject HttpClient client
+@inject IJSRuntime js
+
+<div class="Polaris-Page-Header__PrimaryActionWrapper">
+    <div class="Polaris-Labelled__LabelWrapper">
+        <div class="Polaris-Label">
+            <label class="Polaris-Label__Text">Type</label>
+        </div>
+    </div>
+    <div class="Polaris-Select">
+       
+        
+            @if (types != null && types.Length > 0)
+            {
+                <select class="Polaris-Select__Input">
+                    @foreach (var item in types)
+                    {
+                        if (TypeID > 0 && item.Typeid == TypeID) {
+                            selected = "selected";
+                        }
+                        <option value="@item.Typeid" bind="@selected">@item.Name</option>
+                    }
+                </select>
+            }
+       
+        
+        <div class="Polaris-Select__Content" aria-hidden="true">
+            <span class="Polaris-Select__SelectedOption">@(TypeID > 0 ? types.SingleOrDefault(u => u.Typeid == TypeID).Name : types != null && types.Length > 0 ? types.FirstOrDefault().Name : "")</span>
+            <span class="Polaris-Select__Icon">
+                <span class="Polaris-Icon">
+                    <svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">
+                        <path d="M13 8l-3-3-3 3h6zm-.1 4L10 14.9 7.1 12h5.8z" fill-rule="evenodd"></path>
+                    </svg>
+                </span>
+            </span>
+        </div>
+        <div class="Polaris-Select__Backdrop"></div>
+    </div>
+
+</div>
+
+@code {
+    string selected = "";
+    [Parameter] public int TypeID { get; set; }
+    TblDeviceTypes[] types;
+    protected async override Task OnInitializedAsync()
+    {
+        types = await client.GetFromJsonAsync<TblDeviceTypes[]>("devicetypes");
+    }
+}

@@ -181,3 +181,8 @@ app {
         display: block;
     }
 }
+/*customize*/
+.empty-results {
+    padding: 50px;
+    text-align: center;
+}

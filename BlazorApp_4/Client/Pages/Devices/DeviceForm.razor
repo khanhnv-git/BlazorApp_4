@@ -1,0 +1,368 @@
+﻿@using BlazorApp_4.Server
+@using BlazorApp_4.Client.Pages.Types
+@using BlazorApp_4.Client.Pages.Users
+@inject HttpClient client
+@inject IJSRuntime js
+@inject NavigationManager uriHelper
+@using Microsoft.Extensions.Logging;
+@inject ILogger<Counter> logger;
+<div class="Polaris-Modal-Header">
+    <div class="Polaris-Modal-Header__Title">
+        <div class="Polaris-Stack">
+            <div class="Polaris-Stack__Item">
+                <h2 class="Polaris-Heading">
+                    <a href="Javascript:;" class="Polaris-Modal-CloseButton" style="color: #5C5F62; margin-left: 0;"><i class="fa fa-arrow-left"></i></a>
+                </h2>
+            </div>
+            <div class="Polaris-Stack__Item Polaris-Stack__Item--fill">
+                <h2 class="Polaris-Heading">
+
+                    <span class="current">
+                        @(device != null && !string.IsNullOrEmpty(device.Labelid) ? "Device #" + device.Labelid : "Add new")                       
+                    </span>
+
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="Polaris-Modal__BodyWrapper Polaris-Page-Header--mobileView">
+    <div class="Polaris-Page">
+        <div class="Polaris-Page__Content">
+            <EditForm Model="@device" OnValidSubmit="@OnvalidSubmit">
+              
+                    <div class="Polaris-Layout">
+
+                        <div class="Polaris-Layout__Section">
+                            <div class="Polaris-Stack Polaris-Stack--distributionFill">
+                                <div class="Polaris-Stack__Item">
+                                    <div class="Polaris-FormLayout">
+                                        <div class="Polaris-FormLayout__Item">
+                                            <div class="Polaris-Page-Header__PrimaryActionWrapper">
+                                                <div class="Polaris-Labelled__LabelWrapper">
+                                                    <div class="Polaris-Label">
+                                                        <label class="Polaris-Label__Text">Label</label>
+                                                    </div>
+                                                </div>
+                                                <div class="Polaris-Connected">
+                                                    <div class="Polaris-Connected__Item Polaris-Connected__Item--primary">
+                                                        <div class="Polaris-TextField Polaris-TextField--disabled">
+                                                            <input id="DeviceLabel" disabled="disabled" class="Polaris-TextField__Input" aria-invalid="false" aria-multiline="false" name="LabelID" value="@device.Labelid">
+                                                            <div class="Polaris-TextField__Backdrop"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="Polaris-Stack__Item">
+                                    @if (device != null && !string.IsNullOrEmpty(device.Labelid))
+                                    {
+
+                                        <div class="Polaris-FormLayout">
+                                            <div class="Polaris-FormLayout__Item">
+                                                <div class="Polaris-Page-Header__PrimaryActionWrapper">
+                                                    <div class="Polaris-Labelled__LabelWrapper">
+                                                        <div class="Polaris-Label">
+                                                            <label class="Polaris-Label__Text">&nbsp;</label>
+                                                        </div>
+                                                    </div>
+                                                    <label class="Polaris-Choice" for="DisableDevice">
+                                                        <span class="Polaris-Choice__Control">
+                                                            <span class="Polaris-Checkbox">
+                                                                <input id="DisableDevice" type="checkbox" class="Polaris-Checkbox__Input" aria-invalid="false" role="checkbox" aria-checked="false" checked="@(device.IsRemoved.Value ? "checked" : "")" /><span class="Polaris-Checkbox__Backdrop"></span><span class="Polaris-Checkbox__Icon">
+                                                                    <span class="Polaris-Icon">
+                                                                        <svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">
+                                                                            <path d="M8.315 13.859l-3.182-3.417a.506.506 0 0 1 0-.684l.643-.683a.437.437 0 0 1 .642 0l2.22 2.393 4.942-5.327a.436.436 0 0 1 .643 0l.643.684a.504.504 0 0 1 0 .683l-5.91 6.35a.437.437 0 0 1-.642 0"></path>
+                                                                        </svg>
+                                                                    </span>
+                                                                </span>
+                                                            </span>
+                                                        </span><span class="Polaris-Choice__Label">Disable Device</span>
+                                                    </label>
+
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Polaris-Layout__Section">
+                            <div class="Polaris-Stack Polaris-Stack--distributionFill">
+                                <div class="Polaris-Stack__Item">
+                                    <div class="Polaris-FormLayout">
+                                        <div class="Polaris-FormLayout__Item">
+                                            <DropdownListType TypeID="@(device.Typeid.HasValue ? device.Typeid.Value : 0)"></DropdownListType>
+                                           
+                                            <div class="Polaris-Page-Header__PrimaryActionWrapper">
+                                                <div class="Polaris-Labelled__LabelWrapper">
+                                                    <div class="Polaris-Label">
+                                                        <label id="PolarisSelect2Label" for="PolarisSelect2" class="Polaris-Label__Text">MAC Address</label>
+                                                    </div>
+                                                </div>
+                                                <div class="Polaris-Connected">
+                                                    <div class="Polaris-Connected__Item Polaris-Connected__Item--primary">
+                                                        <div class="Polaris-TextField Polaris-TextField--hasValue">
+                                                            <input type="text" id="MACAddress" placeholder="B4:2E:99:D9:CD:D3" class="Polaris-TextField__Input" aria-invalid="false" aria-multiline="false" value="@device.Macaddress" name="MACAddress" maxlength="17">
+                                                            <div class="Polaris-TextField__Backdrop"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="Polaris-Page-Header__PrimaryActionWrapper">
+                                                <div class="Polaris-Labelled__LabelWrapper">
+                                                    <div class="Polaris-Label">
+                                                        <label id="PolarisSelect2Label" for="PolarisSelect2" class="Polaris-Label__Text">Price</label>
+                                                    </div>
+                                                </div>
+                                                <div class="Polaris-Connected">
+
+                                                    <div class="Polaris-Connected__Item Polaris-Connected__Item--focused Polaris-Connected__Item--primary">
+                                                        <div class="Polaris-TextField Polaris-TextField--hasValue">
+                                                            <input class="Polaris-TextField__Input toReceive" type="number" aria-invalid="false" aria-multiline="false" value="@(device.Price > 0 ? device.Price : 0)" min="0" max="1000000000" name="Price" step="any">
+                                                            <div class="Polaris-TextField__Spinner" aria-hidden="true">
+                                                                <div role="button" class="Polaris-TextField__Segment" tabindex="1">
+                                                                    <div class="Polaris-TextField__SpinnerIcon">
+                                                                        <span class="Polaris-Icon">
+                                                                            <svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">
+                                                                                <path d="M15 12l-5-5-5 5z"></path>
+                                                                            </svg>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div role="button" class="Polaris-TextField__Segment" tabindex="-1">
+                                                                    <div class="Polaris-TextField__SpinnerIcon">
+                                                                        <span class="Polaris-Icon">
+                                                                            <svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">
+                                                                                <path d="M5 8l5 5 5-5z" fill-rule="evenodd"></path>
+                                                                            </svg>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="Polaris-TextField__Backdrop"></div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="Polaris-Stack__Item">
+                                    <div class="Polaris-FormLayout">
+                                        <div class="Polaris-FormLayout__Item">
+                                            <div class="Polaris-Page-Header__PrimaryActionWrapper">
+                                                <div class="Polaris-Labelled__LabelWrapper">
+                                                    <div class="Polaris-Label">
+                                                        <label class="Polaris-Label__Text">Device Name</label>
+                                                    </div>
+                                                </div>
+                                                <div class="Polaris-Connected">
+                                                    <div class="Polaris-Connected__Item Polaris-Connected__Item--primary">
+                                                        <div class="Polaris-TextField Polaris-TextField--hasValue">
+                                                            <input id="PolarisTextField10" class="Polaris-TextField__Input" aria-labelledby="PolarisTextField10Label" aria-invalid="false" aria-multiline="false" value="@device.Name" name="DeviceName">
+                                                            <div class="Polaris-TextField__Backdrop"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="Polaris-Page-Header__PrimaryActionWrapper">
+                                                <div class="Polaris-Labelled__LabelWrapper">
+                                                    <div class="Polaris-Label">
+                                                        <label id="PolarisSelect2Label" for="PolarisSelect2" class="Polaris-Label__Text">Model</label>
+                                                    </div>
+                                                </div>
+                                                <div class="Polaris-Connected">
+                                                    <div class="Polaris-Connected__Item Polaris-Connected__Item--primary">
+                                                        <div class="Polaris-TextField Polaris-TextField--hasValue">
+                                                            <input id="PolarisTextField10" class="Polaris-TextField__Input" aria-labelledby="PolarisTextField10Label" aria-invalid="false" aria-multiline="false" value="@device.Model" name="Model">
+                                                            <div class="Polaris-TextField__Backdrop"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="Polaris-Page-Header__PrimaryActionWrapper">
+                                                <div class="Polaris-Labelled__LabelWrapper">
+                                                    <div class="Polaris-Label">
+                                                        <label id="PolarisSelect2Label" for="PolarisSelect2" class="Polaris-Label__Text">Purchase Date</label>
+                                                    </div>
+                                                </div>
+                                                <div id="purchasedate" class="Polaris-Connected">
+                                                    <div class="Polaris-Connected__Item Polaris-Connected__Item--primary custom-add-on">
+                                                        <div class="Polaris-TextField Polaris-TextField--hasValue">
+                                                            <input class="Polaris-TextField__Input" value="@(device != null && !string.IsNullOrEmpty(device.Labelid) && device.Purchasedate != DateTime.MinValue ? device.Purchasedate.Value.ToString("dd/MM/yyyy") : DateTime.Now.ToString("dd/MM/yyyy"))" name="PurchaseDate">
+                                                            <div class="Polaris-TextField__Backdrop"></div>
+                                                        </div>
+                                                        <div class="add-on">
+                                                            <i data-time-icon="icon-time" data-date-icon="icon-calendar" class="icon-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Polaris-Layout__Section">
+                            <div class="Polaris-Stack">
+                                <div class="Polaris-Stack__Item Polaris-Stack__Item--fill">
+                                    <h2 class="Polaris-Heading">Assigning user (Leave these blank if just adding a new device)</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Polaris-Layout__Section">
+                            <div class="Polaris-Stack Polaris-Stack--distributionFill">
+                                <div class="Polaris-Stack__Item">
+                                    <div class="Polaris-FormLayout">
+                                        <div class="Polaris-FormLayout__Item">
+                                           <DropdownListUsers UserID="@(usage != null ? usage.Assigneduserid.Value : 0)"></DropdownListUsers>
+                                            <div class="Polaris-Page-Header__PrimaryActionWrapper">
+                                                <div class="Polaris-Labelled__LabelWrapper">
+                                                    <div class="Polaris-Label">
+                                                        <label class="Polaris-Label__Text">Start time</label>
+                                                    </div>
+                                                </div>
+                                                <div id="starttime" class="Polaris-Connected">
+                                                    <div class="Polaris-Connected__Item Polaris-Connected__Item--primary custom-add-on">
+                                                        <div class="Polaris-TextField Polaris-TextField--hasValue">
+                                                            <input class="Polaris-TextField__Input" value="@(usage != null && usage.Starttime != DateTime.MinValue ? usage.Starttime.Value.ToString("dd/MM/yyyy") : "" )" name="StartTime">
+                                                            <div class="Polaris-TextField__Backdrop"></div>
+                                                        </div>
+                                                        <div class="add-on">
+                                                            <i data-time-icon="icon-time" data-date-icon="icon-calendar" class="icon-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="Polaris-Stack__Item">
+                                    <div class="Polaris-FormLayout">
+                                        <div class="Polaris-FormLayout__Item">
+                                            @if (device != null && !string.IsNullOrEmpty(device.Labelid))
+                                            {
+                                                <div class="Polaris-Page-Header__PrimaryActionWrapper">
+                                                    <div class="Polaris-Labelled__LabelWrapper">
+                                                        <div class="Polaris-Label">
+                                                            <label class="Polaris-Label__Text">&nbsp;</label>
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="Polaris-Button">
+                                                        <span class="Polaris-Button__Content">
+                                                            <span class="Polaris-Button__Text">History Usages</span>
+                                                        </span>
+                                                    </button>
+
+                                                </div>
+                                            }
+
+                                            <div class="Polaris-Page-Header__PrimaryActionWrapper">
+                                                <div class="Polaris-Labelled__LabelWrapper">
+                                                    <div class="Polaris-Label">
+                                                        <label class="Polaris-Label__Text">End time</label>
+                                                    </div>
+                                                </div>
+                                                <div id="endtime" class="Polaris-Connected">
+                                                    <div class="Polaris-Connected__Item Polaris-Connected__Item--primary custom-add-on">
+                                                        <div class="Polaris-TextField Polaris-TextField--hasValue">
+                                                            <input class="Polaris-TextField__Input" value="@(usage != null && usage.Starttime != DateTime.MinValue ? usage.Starttime.Value.ToString("dd/MM/yyyy") : "")" name="EndTime">
+                                                            <div class="Polaris-TextField__Backdrop"></div>
+                                                        </div>
+                                                        <div class="add-on">
+                                                            <i data-time-icon="icon-time" data-date-icon="icon-calendar" class="icon-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Polaris-Layout__Section">
+                            <div class="Polaris-Stack">
+                                <div class="Polaris-Stack__Item Polaris-Stack__Item--fill">
+                                    <div class="Polaris-FormLayout">
+                                        <div class="Polaris-FormLayout__Item">
+                                            <div class="Polaris-Page-Header__PrimaryActionWrapper">
+                                                <div class="Polaris-Labelled__LabelWrapper">
+                                                    <div class="Polaris-Label">
+                                                        <label class="Polaris-Label__Text">Note</label>
+                                                    </div>
+                                                </div>
+                                                <div class="Polaris-Connected">
+                                                    <div class="Polaris-TextField Polaris-TextField--multiline" style="width: 100%;">
+                                                        <textarea class="Polaris-TextField__Input" aria-invalid="false" aria-multiline="true" style="height: 100px;" name="Note"></textarea>
+                                                        <div class="Polaris-TextField__Backdrop"></div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Polaris-Layout__Section">
+                            <div class="Polaris-Stack">
+                                <div class="Polaris-Stack__Item Polaris-Stack__Item--fill">
+                                    <div class="Polaris-ButtonGroup" style="justify-content: flex-end">
+                                        @if (device != null && !string.IsNullOrEmpty(device.Labelid))
+                                        {
+                                            <div class="Polaris-ButtonGroup__Item hide-disabled @(device.IsRemoved.Value ? "Polaris-VisuallyHidden" : "")"><button type="button" class="Polaris-Button Polaris-Button--destructive"><span class="Polaris-Button__Content"><span class="Polaris-Button__Text">Revoke</span></span></button></div>
+                                        }
+                                        <div class="Polaris-ButtonGroup__Item hide-disabled @(device != null && !string.IsNullOrEmpty(device.Labelid) && device.IsRemoved.Value ? "Polaris-VisuallyHidden" : "")"><button type="submit" class="Polaris-Button Polaris-Button--primary"><span class="Polaris-Button__Content"><span class="Polaris-Button__Text">Save</span></span></button></div>
+                                        <div class="Polaris-ButtonGroup__Item"><button type="button" class="Polaris-Button"><span class="Polaris-Button__Content"><span class="Polaris-Button__Text">Cancel</span></span></button></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+            </EditForm>
+            
+        </div>
+    </div>
+</div>
+@code
+{
+    [Parameter]
+    public TblDevices device { get; set; }
+    [Parameter]
+    public EventCallback OnvalidSubmit { get; set; }
+
+    TblDeviceUsage usage;
+    protected async override Task OnParametersSetAsync() {
+        try
+        {
+            usage = await client.GetFromJsonAsync<TblDeviceUsage>($"deviceusage/{device.Deviceid}");
+        }
+        catch
+        {
+
+        }
+
+    }
+}

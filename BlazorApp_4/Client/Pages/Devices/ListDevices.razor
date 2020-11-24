@@ -62,7 +62,7 @@
                         <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop">@device.Name</td>
                         <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop">@device.Macaddress</td>
                         <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop">@device.Typename</td>
-                        <TD DeviceID="@device.Deviceid"></TD>                       
+                        <TD DeviceID="@device.Deviceid"></TD>
                         <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop">
                             @if (device.IsAvailable.HasValue && device.IsAvailable.Value)
                             {
@@ -86,5 +86,5 @@
 @code{
     int user = 0;
     public TblDeviceUsage[] Usage;
-    [Parameter] public VGetAllDevices[] Devices{ get; set; }
+    [Parameter] public VGetAllDevices[] Devices { get; set; }   
 }

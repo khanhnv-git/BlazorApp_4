@@ -22,10 +22,5 @@ namespace BlazorApp_4.Server.Controllers
             var devices = await _context.VGetAllDevices.ToListAsync();
             return Ok(devices);
         }
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id) {
-            var usage = await _context.TblDeviceUsage.FirstOrDefaultAsync(u => u.Deviceid == id && u.IsActive.Value);
-            return Ok(usage);
-        }
     }
 }
