@@ -13,20 +13,25 @@
         
             @if (types != null && types.Length > 0)
             {
-                <select class="Polaris-Select__Input">
+                <select class="Polaris-Select__Input" @onchange="@OnchangeEvent">
                     @foreach (var item in types)
                     {
-                        if (TypeID > 0 && item.Typeid == TypeID) {
-                            selected = "selected";
+                        if (TypeID > 0 && item.Typeid == TypeID)
+                        {
+                        
+                            <option value="@item.Typeid" selected>@item.Name</option>
                         }
-                        <option value="@item.Typeid" bind="@selected">@item.Name</option>
+                        else { 
+                            <option value="@item.Typeid">@item.Name</option>
+                        }
+                        
                     }
                 </select>
             }
        
         
         <div class="Polaris-Select__Content" aria-hidden="true">
-            <span class="Polaris-Select__SelectedOption">@(TypeID > 0 ? types.SingleOrDefault(u => u.Typeid == TypeID).Name : types != null && types.Length > 0 ? types.FirstOrDefault().Name : "")</span>
+            <span class="Polaris-Select__SelectedOption">@typeNameSelected</span>
             <span class="Polaris-Select__Icon">
                 <span class="Polaris-Icon">
                     <svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">
@@ -42,10 +47,24 @@
 
 @code {
     string selected = "";
+    string typeNameSelected = "";
     [Parameter] public int TypeID { get; set; }
+    [Parameter] public EventCallback<int> TypeIDSelected { get; set; }
     TblDeviceTypes[] types;
     protected async override Task OnInitializedAsync()
     {
         types = await client.GetFromJsonAsync<TblDeviceTypes[]>("devicetypes");
+        if (types.Length > 0) {
+            if (TypeID > 0)
+                typeNameSelected = types.FirstOrDefault(t => t.Typeid == TypeID).Name;
+            else
+                typeNameSelected = types.FirstOrDefault().Name;
+        }
+    }
+    public void OnchangeEvent(ChangeEventArgs e) {
+        if (types.Length > 0) {
+            typeNameSelected = types.FirstOrDefault(t => t.Typeid == Convert.ToInt32(e.Value.ToString())).Name;
+        }
+        TypeIDSelected.InvokeAsync(Convert.ToInt32(e.Value.ToString()));
     }
 }

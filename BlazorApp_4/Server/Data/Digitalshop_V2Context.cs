@@ -25,6 +25,7 @@ namespace BlazorApp_4.Server.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Controllers.GenerateLabelController.GenLabel>().HasNoKey();
             modelBuilder.Entity<TblDeviceTypes>(entity =>
             {
                 entity.HasKey(e => e.Typeid);

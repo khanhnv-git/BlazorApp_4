@@ -9,20 +9,27 @@
     </div>
     <div class="Polaris-Select">
         @if (users != null && users.Length > 0) {
-            <select class="Polaris-Select__Input">
-                @foreach (var item in users)
+        <select class="Polaris-Select__Input">
+            <option value="0">Select user</option>
+            @foreach (var item in users)
+            {
+                if (UserID > 0 && item.UserId == UserID)
                 {
-                    if (UserID > 0 && item.UserId == UserID)
-                    {
-                        selected = "selected";
-                    }
-                    <option value="@item.UserId" bind="@selected">@item.Username</option>
+                    userNameSelected = item.Username;
+
+                    <option value="@item.UserId" selected>@item.Username</option>
                 }
-            </select>
+                else 
+                { 
+                     <option value="@item.UserId">@item.Username</option>
+                }
+                
+            }
+        </select>
         }
       
         <div class="Polaris-Select__Content" aria-hidden="true">
-            <span class="Polaris-Select__SelectedOption">@(UserID > 0 ? users.SingleOrDefault(u => u.UserId == UserID).Username : users != null && users.Length > 0 ? users.FirstOrDefault().Username : "")</span>
+            <span class="Polaris-Select__SelectedOption">@(UserID > 0 ? userNameSelected : "Select user")</span>
             <span class="Polaris-Select__Icon">
                 <span class="Polaris-Icon">
                     <svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">
@@ -37,7 +44,7 @@
 </div>
 
 @code {
-    string selected = "";
+    string userNameSelected = "";
     [Parameter] public int UserID { get; set; }
     public TblUsers[] users;
     protected async override Task OnParametersSetAsync() {

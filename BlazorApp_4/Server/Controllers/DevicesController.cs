@@ -22,5 +22,10 @@ namespace BlazorApp_4.Server.Controllers
             var devices = await _context.VGetAllDevices.ToListAsync();
             return Ok(devices);
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id) {
+            var device = await _context.TblDevices.FirstOrDefaultAsync(d => d.Deviceid == id);
+            return Ok(device);
+        }
     }
 }

@@ -6,30 +6,23 @@
 @inject ILogger<Counter> logger;
 
 <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop">
-    <User UserID="@(Usage != null ? Usage.Assigneduserid.Value : 0)"></User>
+    <User UserID="@(Usage.Assigneduserid.HasValue ? Usage.Assigneduserid.Value : 0)"></User>
 </td>
 <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop">
-    @(Usage != null ? Usage.Starttime.Value.ToString("dd MMM yyyy") : "n/a")
+    @(Usage.Starttime.HasValue ? Usage.Starttime.Value.ToString("dd MMM yyyy") : "n/a")
 </td>
 
 
 @code {
     string username;
     [Parameter] public int DeviceID { get; set;}
-    TblDeviceUsage Usage;
+    TblDeviceUsage Usage = new TblDeviceUsage();
     protected async override Task OnParametersSetAsync()
     {
-        try
-        {
-            Usage = await client.GetFromJsonAsync<TblDeviceUsage>($"/deviceusage/{DeviceID}");
-            username = await client.GetFromJsonAsync<string>($"/user/{Usage.Assigneduserid}");
+        if (DeviceID > 0) {
+           Usage = await client.GetFromJsonAsync<TblDeviceUsage>($"/deviceusage/{DeviceID}");
+            
+            //username = await client.GetFromJsonAsync<string>($"/user/{Usage.Assigneduserid}");
         }
-        catch
-        {
-
-        }
-        
     }
-
-    
 }

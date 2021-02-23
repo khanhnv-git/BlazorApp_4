@@ -70,43 +70,42 @@
                                     </div>
                                 </div>
                                 <div class="Polaris-Filters-ConnectedFilterControl__RightContainer">
-                                        <div class="Polaris-Filters-ConnectedFilterControl__Item">
-                                            <div>
-                                                <button id="Activator-availability" type="button" class="Polaris-Button" tabindex="0" aria-controls="Polarispopover13" aria-owns="Polarispopover13" aria-expanded="true" @onclick="ShowPopover">
-                                                    <span class="Polaris-Button__Content">
-                                                        <span class="Polaris-Button__Text">Availability</span>
-                                                        <span class="Polaris-Button__Icon">
-                                                            <div class="Polaris-Button__DisclosureIcon"><span class="Polaris-Icon"><svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true"><path d="M5 8l5 5 5-5H5z"></path></svg></span></div>
-                                                        </span>
+                                    <div class="Polaris-Filters-ConnectedFilterControl__Item">
+                                        <div>
+                                            <button id="Activator-availability" type="button" class="Polaris-Button" tabindex="0" aria-controls="Polarispopover13" aria-owns="Polarispopover13" aria-expanded="true" @onclick="(() => ShowPopover())">
+                                                <span class="Polaris-Button__Content">
+                                                    <span class="Polaris-Button__Text">Availability</span>
+                                                    <span class="Polaris-Button__Icon">
+                                                        <div class="Polaris-Button__DisclosureIcon"><span class="Polaris-Icon"><svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true"><path d="M5 8l5 5 5-5H5z"></path></svg></span></div>
                                                     </span>
-                                                </button>
-                                                <div id="Polarispopover13" class="Polaris-PositionedOverlay Polaris-Popover__PopoverOverlay @(isShow ? "Polaris-Popover__PopoverOverlay--open" : "Polaris-Popover__PopoverOverlay--close")" style="width: max-content">
-                                                    <div class="Polaris-Popover ml-0">
-                                                        <div class="Polaris-Popover__Wrapper">
-                                                            <div tabindex="-1" class="Polaris-Popover__Content">
-                                                                <div class="Polaris-Popover__Pane Polaris-Scrollable Polaris-Scrollable--vertical" data-polaris-scrollable="true">
-                                                                    <div class="Polaris-Popover__Section">
-                                                                        <div>
-                                                                            <div class="Polaris-Stack Polaris-Stack--vertical Polaris-Stack--spacingTight">
-                                                                                <div class="Polaris-Stack__Item">
-                                                                                    <fieldset class="Polaris-ChoiceList Polaris-ChoiceList--titleHidden" id="PolarisChoiceList5[]" aria-invalid="false">
-                                                                                        <legend class="Polaris-ChoiceList__Title">Availability</legend>
-                                                                                        <ul class="Polaris-ChoiceList__Choices">
-                                                                                            <li>
-                                                                                                <label class="Polaris-Choice" for="DeviceDisabled">
-                                                                                                    <span class="Polaris-Choice__Control">
-                                                                                                        <span class="Polaris-Checkbox">
-                                                                                                            <input id="DeviceDisabled" type="checkbox" class="Polaris-Checkbox__Input" aria-invalid="false" role="checkbox" aria-checked="false" @onchange="(() => ShowListDevice())" >
-                                                                                                            <span class="Polaris-Checkbox__Backdrop"></span>
-                                                                                                            <span class="Polaris-Checkbox__Icon"><span class="Polaris-Icon"><svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true"><path d="M8.315 13.859l-3.182-3.417a.506.506 0 0 1 0-.684l.643-.683a.437.437 0 0 1 .642 0l2.22 2.393 4.942-5.327a.436.436 0 0 1 .643 0l.643.684a.504.504 0 0 1 0 .683l-5.91 6.35a.437.437 0 0 1-.642 0"></path></svg></span></span>
-                                                                                                        </span>
+                                                </span>
+                                            </button>
+                                            <div id="Polarispopover13" class="Polaris-PositionedOverlay Polaris-Popover__PopoverOverlay @(isShowPopover ? "Polaris-Popover__PopoverOverlay--open" : "Polaris-VisuallyHidden")" style="width: max-content">
+                                                <div class="Polaris-Popover ml-0">
+                                                    <div class="Polaris-Popover__Wrapper">
+                                                        <div tabindex="-1" class="Polaris-Popover__Content">
+                                                            <div class="Polaris-Popover__Pane Polaris-Scrollable Polaris-Scrollable--vertical" data-polaris-scrollable="true">
+                                                                <div class="Polaris-Popover__Section">
+                                                                    <div>
+                                                                        <div class="Polaris-Stack Polaris-Stack--vertical Polaris-Stack--spacingTight">
+                                                                            <div class="Polaris-Stack__Item">
+                                                                                <fieldset class="Polaris-ChoiceList Polaris-ChoiceList--titleHidden" id="PolarisChoiceList5[]" aria-invalid="false">
+                                                                                    <legend class="Polaris-ChoiceList__Title">Availability</legend>
+                                                                                    <ul class="Polaris-ChoiceList__Choices">
+                                                                                        <li>
+                                                                                            <label class="Polaris-Choice" for="DeviceDisabled">
+                                                                                                <span class="Polaris-Choice__Control">
+                                                                                                    <span class="Polaris-Checkbox">
+                                                                                                        <input id="DeviceDisabled" type="checkbox" class="Polaris-Checkbox__Input" aria-invalid="false" role="checkbox" aria-checked="false" @onchange="(() => ShowListDevice())">
+                                                                                                        <span class="Polaris-Checkbox__Backdrop"></span>
+                                                                                                        <span class="Polaris-Checkbox__Icon"><span class="Polaris-Icon"><svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true"><path d="M8.315 13.859l-3.182-3.417a.506.506 0 0 1 0-.684l.643-.683a.437.437 0 0 1 .642 0l2.22 2.393 4.942-5.327a.436.436 0 0 1 .643 0l.643.684a.504.504 0 0 1 0 .683l-5.91 6.35a.437.437 0 0 1-.642 0"></path></svg></span></span>
                                                                                                     </span>
-                                                                                                    <span class="Polaris-Choice__Label">Disabled Devices</span>
-                                                                                                </label>
-                                                                                            </li>
-                                                                                        </ul>
-                                                                                    </fieldset>
-                                                                                </div>
+                                                                                                </span>
+                                                                                                <span class="Polaris-Choice__Label">Disabled Devices</span>
+                                                                                            </label>
+                                                                                        </li>
+                                                                                    </ul>
+                                                                                </fieldset>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -115,23 +114,24 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
+
                                         </div>
                                     </div>
+                                </div>
 
                             </div>
 
 
                             <div class="Polaris-Filters-ConnectedFilterControl__AuxiliaryContainer">
                                 <div style="padding-left: 8px;">
-                                   
-                                        <button type="button" class="Polaris-Button" id="addNewDevice" @onclick="OpenModal">
-                                            <span class="Polaris-Button__Content">
-                                                <span class="Polaris-Button__Text">Add New device</span>
-                                            </span>
-                                        </button>
-                                  
+
+                                    <button type="button" class="Polaris-Button" id="addNewDevice" @onclick="OpenModal">
+                                        <span class="Polaris-Button__Content">
+                                            <span class="Polaris-Button__Text">Add New device</span>
+                                        </span>
+                                    </button>
+
                                 </div>
                             </div>
                         </div>
@@ -141,7 +141,7 @@
                     <div id="listDevices">
                         <div class="Polaris-Card">
                             <div class="Polaris-DataTable">
-                                <ListDevices Devices="@devices"></ListDevices>
+                                <ListDevices Devices="@devices" ShowFormEdit="@ShowFormEdit"></ListDevices>
                                 @if (devices != null && devices.Length > 0)
                                 {
                                     <div class="Polaris-DataTable__Footer">
@@ -184,33 +184,33 @@
     </div>
 
 </div>
-<div id="modal-AddandEdit" class="Polaris-Modal-Dialog__Container Polaris- @(!isOpen ? "Polaris-VisuallyHidden" : "")" data-polaris-layer="true" data-polaris-overlay="true">
 
-    <div class="Polaris-Modal-Dialog__Modal" id="add-edit-form">
-      <DeviceForm device="@device" OnvalidSubmit="@EditDevice"></DeviceForm>
-    </div>
+    <Create isOpen="@isOpen" CloseForm="@CloseForm" deviceID="@deviceID"></Create>
+    @*<div id="modal-HistoryUsage" class="Polaris-Modal-Dialog__Container" data-polaris-layer="true" data-polaris-overlay="true" style="display: none">
 
-</div>
-<div id="modal-HistoryUsage" class="Polaris-Modal-Dialog__Container" data-polaris-layer="true" data-polaris-overlay="true" style="display: none">
+            <div class="Polaris-Modal-Dialog__Modal" id="HistoryUsage">
 
-    <div class="Polaris-Modal-Dialog__Modal" id="HistoryUsage">
+            </div>
 
-    </div>
+        </div>*@
 
-</div>
+    
 
 @code
 {
-        bool isOpen = false;
-        string s = "";
-        bool isDeviceRemoved = false;
-        int p = 1;
-        int itemPerPage = 10;
-        int pagingCount = 1;
+    bool isShowPopover = false;
+    int deviceID = 0;
+    bool isOpen = false;
+    string s = "";
+    bool isDeviceRemoved = false;
+    int p = 1;
+    int itemPerPage = 10;
+    int pagingCount = 1;
     public VGetAllDevices[] devices;
     TblDevices device = new TblDevices();
     protected override async Task OnInitializedAsync()
     {
+      
         devices = await client.GetFromJsonAsync<VGetAllDevices[]>("/devices");
 
         devices = devices.Where(d => d.Name.ToLower().Contains(s) || d.Labelid.ToLower().Contains(s)).ToArray();
@@ -232,26 +232,38 @@
         p = page;
         await OnInitializedAsync();
     }
-
-    private bool isShow = false;
     private void ShowPopover()
     {
-        isShow = !isShow;
+        deviceID = 0;
+        isShowPopover = !isShowPopover;
     }
-    protected async Task ShowListDevice() {
+    protected async Task ShowListDevice()
+    {
         isDeviceRemoved = !isDeviceRemoved;
         await OnInitializedAsync();
-        ShowPopover();
     }
     protected async Task SearchTypes(string key)
     {
         s = key;
         await OnInitializedAsync();
     }
-    private void OpenModal() {
+    protected void OpenModal()
+    {
+        deviceID = 0;
         isOpen = true;
     }
-    private void EditDevice() { 
-    
+    public void CloseForm()
+    {
+        isOpen = false;
+        deviceID = 0;
+    }
+    private void ShowFormEdit(int deviceid)
+    {
+        isOpen = true;
+        if (deviceid > 0) {
+            isOpen = true;
+            deviceID = deviceid;
+        }
+
     }
 }

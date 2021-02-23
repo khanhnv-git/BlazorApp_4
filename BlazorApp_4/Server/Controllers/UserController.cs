@@ -24,7 +24,7 @@ namespace BlazorApp_4.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> Get() 
         {
-            var users = await _context.TblUsers.ToArrayAsync();
+            var users = await _context.TblUsers.Where(u => u.Enabled.HasValue && u.Enabled.Value).ToArrayAsync();
             return Ok(users);
         }
         [HttpGet("{id}")]

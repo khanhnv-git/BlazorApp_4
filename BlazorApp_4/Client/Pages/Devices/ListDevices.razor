@@ -55,7 +55,7 @@
 
                         <th class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--firstColumn" scope="row">@c</th>
                         <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop">
-                            <a href="Javascript:;" class="Polaris-Link" data-polaris-unstyled="true">
+                            <a href="Javascript:;" @onclick="@(() => ShowFormEdit.InvokeAsync(device.Deviceid))" class="Polaris-Link" data-polaris-unstyled="true">
                                 @device.Labelid
                             </a>
                         </td>
@@ -76,6 +76,7 @@
 
                     </tr>
                     c++;
+                    
                 }
             }
         </tbody>
@@ -86,5 +87,7 @@
 @code{
     int user = 0;
     public TblDeviceUsage[] Usage;
-    [Parameter] public VGetAllDevices[] Devices { get; set; }   
+    [Parameter] public VGetAllDevices[] Devices { get; set; }
+    [Parameter] public EventCallback<int> ShowFormEdit { get; set; }
+
 }

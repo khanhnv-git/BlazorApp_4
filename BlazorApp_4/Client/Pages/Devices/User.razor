@@ -5,23 +5,16 @@
 @using Microsoft.Extensions.Logging;
 @inject ILogger<Counter> logger;
 
-<span>@(CurrentUser != null ? CurrentUser.Username : "n/a")</span>
+<span>@(CurrentUser.UserId > 0 ? CurrentUser.Username : "n/a")</span>
 
 @code {
-    TblUsers CurrentUser;
+    TblUsers CurrentUser = new TblUsers();
     [Parameter] public int UserID { get; set; }
     protected async override Task OnParametersSetAsync()
     {
-        try
-        {
+        if (UserID > 0) {
             CurrentUser = await client.GetFromJsonAsync<TblUsers>($"/user/{UserID}");
         }
-        catch
-        {
-
-        }
-
     }
-
 
 }

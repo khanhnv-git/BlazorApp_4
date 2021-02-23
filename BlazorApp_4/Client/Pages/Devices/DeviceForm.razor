@@ -11,7 +11,7 @@
         <div class="Polaris-Stack">
             <div class="Polaris-Stack__Item">
                 <h2 class="Polaris-Heading">
-                    <a href="Javascript:;" class="Polaris-Modal-CloseButton" style="color: #5C5F62; margin-left: 0;"><i class="fa fa-arrow-left"></i></a>
+                    <a href="Javascript:;" @onclick="@(() => CloseModal.InvokeAsync(false))" style="color: #5C5F62; margin-left: 0;"><i class="fa fa-arrow-left"></i></a>
                 </h2>
             </div>
             <div class="Polaris-Stack__Item Polaris-Stack__Item--fill">
@@ -47,7 +47,7 @@
                                                 <div class="Polaris-Connected">
                                                     <div class="Polaris-Connected__Item Polaris-Connected__Item--primary">
                                                         <div class="Polaris-TextField Polaris-TextField--disabled">
-                                                            <input id="DeviceLabel" disabled="disabled" class="Polaris-TextField__Input" aria-invalid="false" aria-multiline="false" name="LabelID" value="@device.Labelid">
+                                                            <input id="DeviceLabel" disabled="disabled" class="Polaris-TextField__Input" aria-invalid="false" aria-multiline="false" name="LabelID" value="@label">
                                                             <div class="Polaris-TextField__Backdrop"></div>
                                                         </div>
                                                     </div>
@@ -74,15 +74,22 @@
                                                     <label class="Polaris-Choice" for="DisableDevice">
                                                         <span class="Polaris-Choice__Control">
                                                             <span class="Polaris-Checkbox">
-                                                                <input id="DisableDevice" type="checkbox" class="Polaris-Checkbox__Input" aria-invalid="false" role="checkbox" aria-checked="false" checked="@(device.IsRemoved.Value ? "checked" : "")" /><span class="Polaris-Checkbox__Backdrop"></span><span class="Polaris-Checkbox__Icon">
-                                                                    <span class="Polaris-Icon">
-                                                                        <svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">
-                                                                            <path d="M8.315 13.859l-3.182-3.417a.506.506 0 0 1 0-.684l.643-.683a.437.437 0 0 1 .642 0l2.22 2.393 4.942-5.327a.436.436 0 0 1 .643 0l.643.684a.504.504 0 0 1 0 .683l-5.91 6.35a.437.437 0 0 1-.642 0"></path>
-                                                                        </svg>
+                                                                @if (device.IsRemoved.Value)
+                                                                {
+                                                                    <input id="DisableDevice" type="checkbox" class="Polaris-Checkbox__Input" aria-invalid="false" role="checkbox" aria-checked="false" checked />
+                                                                }
+                                                                else { 
+                                                            <input id="DisableDevice" type="checkbox" class="Polaris-Checkbox__Input" aria-invalid="false" role="checkbox" aria-checked="false" />
+                                                                }
+                                                                        <span class="Polaris-Checkbox__Backdrop"></span><span class="Polaris-Checkbox__Icon">
+                                                                            <span class="Polaris-Icon">
+                                                                                <svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">
+                                                                                    <path d="M8.315 13.859l-3.182-3.417a.506.506 0 0 1 0-.684l.643-.683a.437.437 0 0 1 .642 0l2.22 2.393 4.942-5.327a.436.436 0 0 1 .643 0l.643.684a.504.504 0 0 1 0 .683l-5.91 6.35a.437.437 0 0 1-.642 0"></path>
+                                                                                </svg>
+                                                                            </span>
+                                                                        </span>
                                                                     </span>
-                                                                </span>
-                                                            </span>
-                                                        </span><span class="Polaris-Choice__Label">Disable Device</span>
+                                                                </span><span class="Polaris-Choice__Label">Disable Device</span>
                                                     </label>
 
 
@@ -101,7 +108,7 @@
                                 <div class="Polaris-Stack__Item">
                                     <div class="Polaris-FormLayout">
                                         <div class="Polaris-FormLayout__Item">
-                                            <DropdownListType TypeID="@(device.Typeid.HasValue ? device.Typeid.Value : 0)"></DropdownListType>
+                                            <DropdownListType TypeID="@(device.Typeid.HasValue ? device.Typeid.Value : 0)" TypeIDSelected="@SelectedTypeID"></DropdownListType>
                                            
                                             <div class="Polaris-Page-Header__PrimaryActionWrapper">
                                                 <div class="Polaris-Labelled__LabelWrapper">
@@ -232,7 +239,7 @@
                                 <div class="Polaris-Stack__Item">
                                     <div class="Polaris-FormLayout">
                                         <div class="Polaris-FormLayout__Item">
-                                           <DropdownListUsers UserID="@(usage != null ? usage.Assigneduserid.Value : 0)"></DropdownListUsers>
+                                           <DropdownListUsers UserID="@(usage.Assigneduserid.HasValue ? usage.Assigneduserid.Value : 0)"></DropdownListUsers>
                                             <div class="Polaris-Page-Header__PrimaryActionWrapper">
                                                 <div class="Polaris-Labelled__LabelWrapper">
                                                     <div class="Polaris-Label">
@@ -242,7 +249,7 @@
                                                 <div id="starttime" class="Polaris-Connected">
                                                     <div class="Polaris-Connected__Item Polaris-Connected__Item--primary custom-add-on">
                                                         <div class="Polaris-TextField Polaris-TextField--hasValue">
-                                                            <input class="Polaris-TextField__Input" value="@(usage != null && usage.Starttime != DateTime.MinValue ? usage.Starttime.Value.ToString("dd/MM/yyyy") : "" )" name="StartTime">
+                                                            <input class="Polaris-TextField__Input" value="@(usage.Starttime.HasValue && usage.Starttime != DateTime.MinValue ? usage.Starttime.Value.ToString("dd/MM/yyyy") : "" )" name="StartTime">
                                                             <div class="Polaris-TextField__Backdrop"></div>
                                                         </div>
                                                         <div class="add-on">
@@ -284,7 +291,7 @@
                                                 <div id="endtime" class="Polaris-Connected">
                                                     <div class="Polaris-Connected__Item Polaris-Connected__Item--primary custom-add-on">
                                                         <div class="Polaris-TextField Polaris-TextField--hasValue">
-                                                            <input class="Polaris-TextField__Input" value="@(usage != null && usage.Starttime != DateTime.MinValue ? usage.Starttime.Value.ToString("dd/MM/yyyy") : "")" name="EndTime">
+                                                            <input class="Polaris-TextField__Input" value="@(usage.Endtime.HasValue && usage.Endtime != DateTime.MinValue ? usage.Endtime.Value.ToString("dd/MM/yyyy") : "")" name="EndTime">
                                                             <div class="Polaris-TextField__Backdrop"></div>
                                                         </div>
                                                         <div class="add-on">
@@ -334,7 +341,7 @@
                                             <div class="Polaris-ButtonGroup__Item hide-disabled @(device.IsRemoved.Value ? "Polaris-VisuallyHidden" : "")"><button type="button" class="Polaris-Button Polaris-Button--destructive"><span class="Polaris-Button__Content"><span class="Polaris-Button__Text">Revoke</span></span></button></div>
                                         }
                                         <div class="Polaris-ButtonGroup__Item hide-disabled @(device != null && !string.IsNullOrEmpty(device.Labelid) && device.IsRemoved.Value ? "Polaris-VisuallyHidden" : "")"><button type="submit" class="Polaris-Button Polaris-Button--primary"><span class="Polaris-Button__Content"><span class="Polaris-Button__Text">Save</span></span></button></div>
-                                        <div class="Polaris-ButtonGroup__Item"><button type="button" class="Polaris-Button"><span class="Polaris-Button__Content"><span class="Polaris-Button__Text">Cancel</span></span></button></div>
+                                        <div class="Polaris-ButtonGroup__Item"><button type="button" class="Polaris-Button" @onclick="@(() => CloseModal.InvokeAsync(false))"><span class="Polaris-Button__Content"><span class="Polaris-Button__Text">Cancel</span></span></button></div>
                                     </div>
                                 </div>
                             </div>
@@ -348,21 +355,35 @@
 </div>
 @code
 {
-    [Parameter]
-    public TblDevices device { get; set; }
-    [Parameter]
-    public EventCallback OnvalidSubmit { get; set; }
 
-    TblDeviceUsage usage;
+    [Parameter] public TblDevices device { get; set; }
+    [Parameter] public EventCallback OnvalidSubmit { get; set; }
+    [Parameter] public EventCallback<bool> CloseModal { get; set; }
+    public class GenLabel
+    {
+        public string Labelid { get; set; }
+    }
+    TblDeviceUsage usage = new TblDeviceUsage();
+    public int typeid = 1;
+    string label = string.Empty;
+
+    protected override async Task OnInitializedAsync() {
+        if (device.Deviceid > 0) {
+            typeid = device.Typeid.Value;
+        }
+        var _label = await client.GetFromJsonAsync<GenLabel>($"generatelabel/{typeid}");
+        if (_label != null)
+            label = _label.Labelid;
+    }
+
     protected async override Task OnParametersSetAsync() {
-        try
-        {
+        if (device.Deviceid > 0) {
             usage = await client.GetFromJsonAsync<TblDeviceUsage>($"deviceusage/{device.Deviceid}");
         }
-        catch
-        {
 
-        }
-
+    }
+    public async void SelectedTypeID(int _typeid) {
+        typeid = _typeid;
+        await OnInitializedAsync();
     }
 }

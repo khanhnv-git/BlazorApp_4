@@ -20,9 +20,13 @@ namespace BlazorApp_4.Server.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            TblDeviceUsage usage = new TblDeviceUsage();
-            usage = await _context.TblDeviceUsage.FirstOrDefaultAsync(u => u.IsActive.HasValue && u.IsActive.Value && u.Deviceid == id);
-            return Ok(usage);          
+            
+            TblDeviceUsage usage = await _context.TblDeviceUsage.FirstOrDefaultAsync(u => u.IsActive.HasValue && u.IsActive.Value && u.Deviceid == id);
+            if (usage != null && usage.Assigneduserid.HasValue)
+                return Ok(usage);
+            else
+                return Ok(new TblDeviceUsage());
+
         }
        
     }
